@@ -4,7 +4,7 @@ library(readr)
 library(tidyr)
 
 # Read the election data from the CSV file
-election <- read_csv("wow.csv")
+election <- read_csv("ElectionResults.csv")
 
 #Change rank to integer
 election <- election %>%
