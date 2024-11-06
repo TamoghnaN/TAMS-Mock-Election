@@ -151,7 +151,7 @@ senate_fptp_class <- senior_junior_fptp %>%
 
 # Reformat into tables for display (Guys vs. Girls Senate election)
 senate_fptp_gender <- gender_fptp %>%
-  filter(position == "Senator") %>%  # Filter for Presidential position only
+  filter(position == "Senator") %>%  # Filter for Senator position only
   group_by(choice, MF) %>%        # Group by candidate and Senior status
   summarise(vote_count = sum(vote_count, na.rm = TRUE), .groups = "drop") %>%
   spread(key = MF, value = vote_count, fill = 0) %>%  # Spread to wide format
