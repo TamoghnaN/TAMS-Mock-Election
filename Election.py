@@ -35,6 +35,23 @@ num_juniors = summary_counts['num_juniors']
 num_guys = summary_counts['num_guys']
 num_girls = summary_counts['num_girls']
 
+detailed_counts = election.groupby(['isSenior', 'MF']).size().unstack(fill_value=0)
+
+# Rename columns for clarity
+detailed_counts = detailed_counts.rename(columns={True: 'Senior', False: 'Junior'}, index={'M': 'Guys', 'F': 'Girls'})
+
+# Flatten the result to create named columns for each group
+counts_dict = {
+    "Senior_Guys": detailed_counts.loc['Guys', 'Senior'],
+    "Senior_Girls": detailed_counts.loc['Girls', 'Senior'],
+    "Junior_Guys": detailed_counts.loc['Guys', 'Junior'],
+    "Junior_Girls": detailed_counts.loc['Girls', 'Junior']
+}
+
+# Convert to a DataFrame for easier viewing (optional)
+counts_df = pd.DataFrame([counts_dict])
+
+print(counts_df)
 # Separate issues into long format
 issues_long = election.assign(Issues=election['Issues'].str.split(',')).explode('Issues')
 issues_long['Issues'] = issues_long['Issues'].str.strip()
