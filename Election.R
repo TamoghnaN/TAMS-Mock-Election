@@ -45,6 +45,24 @@ num_juniors = summary_counts$num_juniors
 num_guys = summary_counts$num_guys
 num_girls = summary_counts$num_girls
 
+# Get counts of senior guys, senior girls, junior guys, junior girls
+detailed_counts <- election %>%
+  group_by(isSenior, MF) %>%
+  summarise(
+    count = n(),
+    .groups = "drop"
+  ) %>%
+  pivot_wider(names_from = c(isSenior, MF), values_from = count, names_prefix = "count_") %>%
+  rename(
+    Senior_Guys = `count_TRUE_M`,
+    Senior_Girls = `count_TRUE_F`,
+    Junior_Guys = `count_FALSE_M`,
+    Junior_Girls = `count_FALSE_F`
+  )
+
+# View results
+print(detailed_counts)
+
 issues_long <- election %>%
   separate_rows(Issues, sep = ",\\s*") %>%  # Split issues by comma and remove extra spaces
   mutate(Issues = trimws(Issues))  # Trim any leading/trailing whitespace from issue names
